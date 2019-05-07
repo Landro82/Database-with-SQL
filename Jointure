@@ -1,0 +1,34 @@
+/*Methode1: Produit cartésien + restriction + restriction suplementaire*/
+SELECT
+entity.name,
+entity.id_address,
+address.id_address,
+address.address,
+address.countries
+FROM entity, address
+WHERE entity.id_address = address.id_address
+      AND entity.name = 'Big Data Crunchers Ltd.'// Restriction
+/*Seconde Methode avec "Join"*/
+SELECT
+entity.name,
+entity.id_address,
+address.id_address,
+address.address,
+address.countries
+FROM entity JOIN address
+ON entity.id_address = address.id_address;
+/*Retrouver des intermediare dans un tableau*/
+SELECT
+i.id AS intermediary_id,
+i.name AS intermediary_name,
+e.id AS entity_id,
+e.name AS entity_name,
+e.status AS entity_status
+FROM
+intermediary i,
+assoc_inter_entity a,
+entity e
+WHERE
+a.entity = e.id
+AND a.inter = i.id
+AND e.name = 'Big Data Crunchers Ltd.'
