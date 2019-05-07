@@ -1,0 +1,22 @@
+/*Agregation*/
+SELECT status, count(*)
+FROM entity
+Group By status;
+/**Les fonctions d'agregation**/
+SELECT max(corporation_date) AS maxi FROM entity;// L'attribut renvoyé sera appelé maxi
+/*****Example****/
+SELECT
+    i.id as intermediary_id,
+    i.name as intermediary_name,
+    e.jurisdiction,
+    count(*)
+FROM 
+    intermediary i,
+    assoc_inter_entity a,
+    entity e
+WHERE
+    a.entity = e.id
+    AND a.inter = i.id
+    AND (e.id = 5000 OR i.id = 5001)
+GROUP BY
+    i.id, i.name, e.jurisdiction
