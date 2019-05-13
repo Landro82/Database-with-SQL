@@ -1,0 +1,23 @@
+SELECT * FROM entity ORDER BY lifetime; /*Cette requête renvoie l'ensemble des lignes de la table entity, et classe les sociétés selon leur attribut lifetime.
+SELECT * FROM entity ORDER BY incorporation_date ASC; /*Par défaut, le tri se fait dans l'ordre ascendant,
+SELECT * FROM entity ORDER BY incorporation_date DESC ; /* /*Par défaut, le tri se fait dans l'ordre descendant,
+/*EXAMPLE*/
+SELECT 
+    i.id AS intermediary_id,
+    i.name AS intermediary_name,
+    e.jurisdiction,
+    e.jurisdiction_description,
+    count(*) as cnt
+FROM 
+    intermediary i,
+    assoc_inter_entity a,
+    entity e
+WHERE 
+    a.entity = e.id AND 
+    a.inter = i.id AND 
+    (i.id = 5000 OR i.id = 5001) 
+GROUP BY 
+    i.id, i.name, e.jurisdiction, e.jurisdiction_description
+ORDER BY 
+    cnt DESC
+LIMIT 5;
