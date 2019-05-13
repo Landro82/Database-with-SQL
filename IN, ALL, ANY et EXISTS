@@ -1,0 +1,41 @@
+/*IN, ALL, ANY et EXISTS*/
+-- REQUETE n°1
+SELECT *
+FROM (SELECT id_address, count(*) AS cnt FROM entity GROUP BY id_address) a
+WHERE a.cnt > 500 ;
+
+-- REQUETE n°2, équivalente à la requête n°1 :
+SELECT id_address, count(*) AS cnt 
+FROM entity 
+GROUP BY id_address 
+HAVING count(*) > 500 ; /* Elles retournent les adresses auxquelles sont domiciliées plus de 500 sociétés.
+/* Keyword IN*/
+SELECT *
+FROM address a
+WHERE a.id_address IN (
+    SELECT id_address
+    FROM entity
+    GROUP BY id_address
+    HAVING count(*) > 500
+    );
+/*Keyword ANY et ALL*/    
+SELECT * FROM nb_entities WHERE cnt_entities > ALL(SELECT cnt_entities FROM nb_entities WHERE intermediary_id IN (5000,5001,5002));
+CREATE TABLE nb_entities AS
+SELECT i.id AS intermediary_id, 
+    i.name AS intermediary_name, 
+    e.jurisdiction,
+    e.jurisdiction_description,
+    count(*) AS cnt_entities
+FROM intermediary i, assoc_inter_entity a, entity e
+WHERE a.entity = e.id AND a.inter = i.id
+GROUP BY i.id, i.name, e.jurisdiction, e.jurisdiction_description;
+/* Keyword EXISTS */
+SELECT *
+FROM address a
+WHERE a.id_address IN (
+    SELECT id_address
+    FROM entity
+    GROUP BY id_address
+    HAVING count(*) > 500
+    );
+    
