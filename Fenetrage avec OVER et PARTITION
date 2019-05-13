@@ -1,0 +1,29 @@
+SELECT incorporation_date, min(id) FROM entity ;
+/** OVER(PARTITION BY...)*/
+-- REQUETE n°1
+SELECT sum(cnt_entities) FROM nb_entities GROUP BY id_intermediary ;
+
+-- REQUETE n°2
+SELECT sum(cnt_entities) OVER (PARTITION BY id_intermediary) FROM nb_entities ;
+/********************************************************************************************/
+SELECT id_intermediary, 
+    jurisdiction, 
+    cnt_entities, 
+    sum(cnt_entities) OVER (PARTITION BY id_intermediary) AS entities_by_intermediary 
+FROM nb_entities ;
+/***********Avec une fonction de rang*************************/
+SELECT 
+    prenom, 
+    temps, 
+    rank() OVER (ORDER BY temps) 
+FROM course ;
+/*** La somme cumulée et les numéros de rang ***/
+SELECT id_intermediary,
+    jurisdiction,
+    cnt_entities,
+    rank()
+        OVER(PARTITION BY id_intermediary ORDER BY cnt_entities DESC) AS rank,
+    sum(cnt_entities) 
+        OVER(PARTITION BY id_intermediary ORDER BY cnt_entities DESC) AS cum_sum
+FROM nb_entities ;
+
