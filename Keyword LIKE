@@ -1,0 +1,28 @@
+/* Keyword LIKE: Pour rechercher des chaînes de caractères*/
+SELECT * FROM entity WHERE name LIKE 'A%' ; /* Pour connaitre toutes les sociéte qui commence par A
+SELECT 'OpenClassrooms' LIKE '%Class%' ;
+/* Majuscule et minuscule */
+SELECT * FROM entity WHERE lower(name) LIKE 'a%' ; /* Ici name sera converti en minuscules grâce à la fonction lower.
+/*Cette requête vous renverra toutes les sociétés dont le nom commence par un A, qu'il soit en majuscule ou minuscule.*/
+/* Les doublons */
+SELECT * FROM intermediary WHERE lower(name) LIKE '%pacher%banking%' ;
+SELECT 
+    i.id AS intermediary_id,
+    i.name AS intermediary_name,
+    e.jurisdiction,
+    e.jurisdiction_description,
+    count(*) as cnt
+FROM 
+    intermediary i,
+    assoc_inter_entity a,
+    entity e
+WHERE 
+    a.entity = e.id AND 
+    a.inter = i.id AND 
+    (   lower(i.name) LIKE '%pacher%banking%'
+        OR
+        lower(i.name) LIKE '%plouf%financial%services%')
+GROUP BY 
+    i.id, i.name, e.jurisdiction, e.jurisdiction_description
+HAVING 
+    count(*) > 100 ;
