@@ -1,0 +1,19 @@
+SELECT * FROM t1 WHERE t1.valeur1, t1.valeur2 IN (SELECT c1, c2 FROM t2) ;
+/**********************************************************************************************************/
+CREATE TEMP TABLE une_table_temporaire AS
+SELECT id_address, count(*) AS cnt 
+FROM entity 
+GROUP BY id_address ;
+
+SELECT * FROM une_table_temporaire a WHERE a.cnt > 500 ;
+/*************************************************************************************************************/
+Pour tester si une valeur se trouve dans le résultat d'une requête, on utilise IN.
+
+Soit B une liste de valeurs renvoyées par une requête. Pour tester si une condition (par exemple A < B) est vraie pour...
+
+... toutes les valeurs de B, on utilise ALL,
+
+... au moins une valeur de B, on utilise ANY.
+
+EXISTS vérifie si la sous-requête contient au moins une ligne.
+
