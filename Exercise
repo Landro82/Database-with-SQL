@@ -1,0 +1,14 @@
+/*** Using Keyword HAVING*****/
+SELECT * FROM employees
+GROUP BY last_name
+HAVING COUNT(last_name) > 200;
+/*** Using Keyword IN ***/
+SELECT * FROM salaries s
+WHERE s.emp_no IN(SELECT emp_no FROM employees WHERE hire_date > '1999-08-20' GROUP BY emp_no);
+/*Afficher uniquement les 5 salariés les plus agés. Using Keyword ORDER BY */
+SELECT * FROM employees
+ORDER BY birth_date ASC
+LIMIT 5;
+/*Afficher les salariés dont le nom de famille a pour 2ème lettre un "s". Using Keyword LIKE*/
+SELECT * FROM employees
+WHERE last_name LIKE "-s%";
