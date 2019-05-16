@@ -1,2 +1,2 @@
-# Database-with-SQL
+# Database with SQL
 Learn to manipulate Database
